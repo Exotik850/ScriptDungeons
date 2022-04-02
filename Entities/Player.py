@@ -1,14 +1,15 @@
 from ursina import *
-from Entities import PlayerCursor, Effect, Spell
+from Entities import PlayerCursor, Spell
 
 class Player(Entity):
     mana_points = 0
     health_points = 0
     speed_points = 5
     defense_points = 0
+    spells = []
     cursor = None
 
-    def __init__(self, mana=0, health=0, speed=3, defense=0):
+    def __init__(self, mana=0, health=0, speed=3, defense=0, spells = [Spell.initial_spell], **kwargs):
         super().__init__()
         self.mana_points = mana
         self.health_points = health
@@ -19,9 +20,12 @@ class Player(Entity):
         self.collider = "box"
         self.caster = raycaster
         self.cursor = PlayerCursor.PlayerCursor()
+        self.spells = spells
+        self.spell_index = 0
 
     def shoot_spell(self):
-        pass
+        spell = self.spells[self.spell_index]
+        spell.cast(self.world_position + self.rotation * 2, self.rotation, self)
 
     def open_menu(self):
         pass
@@ -39,4 +43,8 @@ class Player(Entity):
             self.shoot_spell()
         if key == "k":
             self.open_menu()
+
+    def kill(self):
+        destroy(self.cursor)
+        destroy(self)
 

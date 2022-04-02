@@ -18,3 +18,6 @@ class Effect:
         while t < self.duration:
             self.target.target_attribute *= self.modifier
             t += time.dt
+
+
+initialEffect = Effect(targ_attribute='health', dur=.1, modifier=.95)
