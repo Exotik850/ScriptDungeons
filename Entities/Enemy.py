@@ -6,12 +6,6 @@ from Entities.Projectile import Projectile
 
 
 class Enemy(Entity):
-    health = 10
-    defense = 0
-    damage = 1
-    speed = .1
-
-
     def __init__(self, health=10, defense=0, damage=1, speed=.1, **kwargs):
         super().__init__(**kwargs)
         self.model = "sphere"

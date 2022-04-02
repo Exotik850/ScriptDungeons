@@ -3,13 +3,7 @@ from Entities import Projectile, Effect
 
 
 class Spell(Entity):
-    update_effects = []
-    damage_effects = []
-    ending_effects = []
-    initial_effects = []
-    target = None
-
-    def __init__(self, initial=[], update=[], damage=[], ending=[], proj="sphere", target=None):
+    def __init__(self, initial=[], update=[], damage=[], ending=[], proj="arrow", target=None):
         super().__init__()
         self.initial_effects = initial
         self.update_effects = update
@@ -19,10 +13,9 @@ class Spell(Entity):
         self.projectile_model = proj
         self.projectile = None
 
-    def cast(self, location, direction, caster):
-        self.projectile = Projectile.Projectile(size=1, speed=1, direction=direction, model=self.projectile_model, target=self.target, effect=Effect.initialEffect)
-        self.projectile.location = location
-        self.projectile.caster = caster
+    def cast(self, position, direction, caster):
+        self.projectile = Projectile.Projectile(size=1, speed=1, direction=direction, position=position, model=self.projectile_model, target=self.target, effect=Effect.initialEffect)
+        self.projectile.spell_caster = caster
         for effect in self.initial_effects:
             effect.activate(self)
 
@@ -31,7 +24,15 @@ class Spell(Entity):
                 i.activate(self)
 
         self.projectile.update_effects = self.update_effects
-        self.projectile.update = proj_update
+        # self.projectile.update = proj_update
+
+    def update(self):
+        if self.projectile:
+            self.projectile.update()
+            if self.projectile.dead:
+                for effect in self.ending_effects:
+                    effect.activate(self)
+                self.projectile = None
 
 
 initial_spell = Spell(damage=[Effect.initialEffect])
