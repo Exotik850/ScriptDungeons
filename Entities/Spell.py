@@ -14,7 +14,9 @@ class Spell(Entity):
         self.projectile = None
 
     def cast(self, position, direction, caster):
-        self.projectile = Projectile.Projectile(size=1, speed=1, direction=direction, position=position, model=self.projectile_model, target=self.target, effect=Effect.initialEffect)
+        self.projectile = Projectile.Projectile(size=1, speed=1, direction=direction, position=position,
+                                                model=self.projectile_model, target=self.target,
+                                                effect=Effect.initialEffect)
         self.projectile.spell_caster = caster
         for effect in self.initial_effects:
             effect.activate(self)
@@ -32,7 +34,7 @@ class Spell(Entity):
             if self.projectile.dead:
                 for effect in self.ending_effects:
                     effect.activate(self)
-                self.projectile = None
+                destroy(self.projectile)
 
 
 initial_spell = Spell(damage=[Effect.initialEffect])

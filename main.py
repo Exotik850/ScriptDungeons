@@ -2,8 +2,9 @@ from ursina import *
 from Entities import Player, Spell
 from Entities.Enemy import Enemy
 from World import Wall
-
-camera.orthographic = True
+from ursina.shaders import lit_with_shadows_shader
+# camera.orthographic = True
+camera.fov=90
 
 def main():
     app = Ursina()
@@ -12,8 +13,8 @@ def main():
     walls = []
     walls.append(Wall.Wall(-10, 10, 10, 10))
 
-    print(player.position)
-
+    # for i in (entities + walls):
+    #     i.shader = lit_with_shadows_shader
     app.run()
 
 

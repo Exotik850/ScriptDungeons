@@ -11,6 +11,7 @@ class Wall(Entity):
         self.z = y
         self.w = w
         self.h = h
-        self.model = "square"
-        self.scale = Vec3(self.w, .1, self.h)
-        self.collider = "square"
+        self.origin_z = .5
+        self.model = "cube"
+        self.scale = Vec3(self.w, self.h, 10)
+        self.collider = "box"

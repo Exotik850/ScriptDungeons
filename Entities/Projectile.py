@@ -15,17 +15,17 @@ class Projectile(Entity):
         self.spell_caster=None
 
     def update(self):
-        hit_info = self.caster.raycast(self.world_position, self.rotation, self.speed)
-        if hit_info.hit:
-            if hit_info.entity.name == 'Enemy':
-                self.effect.target = hit_info.entity
-                self.effect.activate()
-                self.dead = True
+        hit_info = self.caster.raycast(self.world_position, self.rotation, self.speed, ignore=(self.spell_caster,))
+        if not hit_info.hit:
+            self.position += self.direction * self.speed * time.dt
+        else:
+            self.on_collision(hit_info.entity)
+
         # else:
-        self.position += self.direction * self.speed * time.dt
 
     def on_collision(self, other):
         if other.name == 'Enemy':
-            other.health -= self.damage
-            self.daed = True
+            other = self.effect.target
+            self.effect.activate()
+            self.dead = True
 

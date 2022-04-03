@@ -1,8 +1,5 @@
 from ursina import *
-import random
-
 from Entities.Player import Player
-from Entities.Projectile import Projectile
 
 
 class Enemy(Entity):
@@ -17,8 +14,12 @@ class Enemy(Entity):
         self.damage = damage
         self.speed = speed
 
+    def kill(self):
+        destroy(self)
+
     def update(self):
-        pass
+        if self.health <= 0:
+            self.kill()
         # rand_vel = Vec2(random.uniform(-1,1), random.uniform(-1,1))
         # self.x += rand_vel.x * self.speed
         # self.y += rand_vel.y * self.speed
@@ -27,11 +28,3 @@ class Enemy(Entity):
         if isinstance(other, Player):
             other.health -= self.damage - other.defense
             self.health -= other.damage - self.defense
-            if self.health <= 0:
-                self.kill()
-            if other.health <= 0:
-                other.kill()
-        elif isinstance(other, Projectile):
-            self.health -= other.damage - self.defense
-            if self.health <= 0:
-                self.kill()
