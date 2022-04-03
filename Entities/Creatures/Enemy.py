@@ -1,5 +1,5 @@
 from ursina import *
-from Entities.Player import Player
+from Entities.Creatures.Player import Player
 
 
 class Enemy(Entity):

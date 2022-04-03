@@ -12,12 +12,12 @@ class Projectile(Entity):
         self.collider = "sphere"
         self.dead = False
         self.collider.on_collision = self.on_collision
-        self.spell_caster=None
+        self.spell_caster = None
 
     def update(self):
         hit_info = self.caster.raycast(self.world_position, self.rotation, self.speed, ignore=(self.spell_caster,))
         if not hit_info.hit:
-            self.position += self.direction * self.speed * time.dt
+            self.position += self.rotation * self.speed * time.dt
         else:
             self.on_collision(hit_info.entity)
 
@@ -25,7 +25,6 @@ class Projectile(Entity):
 
     def on_collision(self, other):
         if other.name == 'Enemy':
-            other = self.effect.target
+            self.effect.target = other
             self.effect.activate()
             self.dead = True
-

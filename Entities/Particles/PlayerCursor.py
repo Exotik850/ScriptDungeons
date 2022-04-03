@@ -12,8 +12,3 @@ class PlayerCursor(Entity):
     def update(self):
         self.x = mouse.x
         self.y = mouse.y
-        if mouse.left:
-            self.color = color.green
-        else:
-            self.color = color.white
-

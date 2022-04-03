@@ -1,9 +1,10 @@
 from ursina import *
-from Entities import PlayerCursor, Spell
-
+from Entities.Magic import Spell
+from Entities.Particles import PlayerCursor
+from math import atan2
 
 class Player(Entity):
-    def __init__(self, mana=0, health=0, speed=3, defense=0, spells=None, **kwargs):
+    def __init__(self, mana=0, health=0, speed=3, defense=0, spells=None, particleSpawner=None, **kwargs):
         super().__init__(**kwargs)
 
         if spells is None:
@@ -21,6 +22,7 @@ class Player(Entity):
         self.cursor = PlayerCursor.PlayerCursor()
         self.spells = spells
         self.spell_index = 0
+        self.particleSpawner = particleSpawner
         self.light = PointLight(parent=self, shadows=True, position=Vec3(-10,0,0))
 
     def shoot_spell(self):
@@ -32,15 +34,15 @@ class Player(Entity):
 
     def update(self):
         hit_info = self.caster.raycast(self.world_position, self.rotation, ignore=(self,), distance=sqrt(2), debug=True)
-        if not hit_info.hit:
-            self.x += held_keys['d'] * time.dt * self.speed_points
-            self.y -= held_keys['s'] * time.dt * self.speed_points
-            self.x -= held_keys['a'] * time.dt * self.speed_points
-            self.y += held_keys['w'] * time.dt * self.speed_points
-            camera.x = self.x
-            camera.y = self.y
-        self.lookAt(self.cursor.world_position)
-
+        # if not hit_info.hit:
+        self.x += held_keys['d'] * time.dt * self.speed_points
+        self.y -= held_keys['s'] * time.dt * self.speed_points
+        self.x -= held_keys['a'] * time.dt * self.speed_points
+        self.y += held_keys['w'] * time.dt * self.speed_points
+        self.lookAt(self.cursor)
+        camera.x = self.x
+        camera.y = self.y
+        self.cursor.position = self.world_position + (self.rotation * 5)
     def input(self, key):
         if key == "left mouse down":
             self.shoot_spell()

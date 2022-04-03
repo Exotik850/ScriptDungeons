@@ -1,5 +1,5 @@
 from ursina import *
-from Entities import Projectile, Effect
+from Entities.Magic import Effect, Projectile
 
 
 class Spell(Entity):
