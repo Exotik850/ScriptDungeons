@@ -13,8 +13,8 @@ class Spell(Entity):
         self.projectile_model = proj
         self.projectile = None
 
-    def cast(self, position, direction, caster):
-        self.projectile = Projectile.Projectile(size=1, speed=1, direction=direction, position=position,
+    def cast(self, position, rotation, caster):
+        self.projectile = Projectile.Projectile(size=1, speed=1, rotation=rotation, position=position,
                                                 model=self.projectile_model, target=self.target,
                                                 effect=Effect.initialEffect)
         self.projectile.spell_caster = caster

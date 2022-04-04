@@ -1,10 +1,11 @@
 from ursina import *
+from Math import VectorMath
 
 
 class Projectile(Entity):
-    def __init__(self, size, direction, speed, effect, target, **kwargs):
+    def __init__(self, size, rotation, speed, effect, target, **kwargs):
         super().__init__(z=0.1, scale=size, **kwargs)
-        self.direction = direction
+        self.rotation = rotation
         self.speed = speed
         self.effect = effect
         self.target = target
@@ -17,7 +18,7 @@ class Projectile(Entity):
     def update(self):
         hit_info = self.caster.raycast(self.world_position, self.rotation, self.speed, ignore=(self.spell_caster,))
         if not hit_info.hit:
-            self.position += self.rotation * self.speed * time.dt
+            self.position += VectorMath.normalize(self.rotation) * self.speed * time.dt
         else:
             self.on_collision(hit_info.entity)
 
