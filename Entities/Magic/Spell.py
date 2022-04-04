@@ -3,12 +3,14 @@ from Entities.Magic import Effect, Projectile
 
 
 class Spell(Entity):
-    def __init__(self, initial=[], update=[], damage=[], ending=[], proj="arrow", target=None):
+    def __init__(self, name=None, initial=[], update=[], damage=[], ending=[], proj="arrow", target=None, cost=0):
         super().__init__()
+        self.name = name
         self.initial_effects = initial
         self.update_effects = update
         self.damage_effects = damage
         self.ending_effects = ending
+        self.mana_cost = cost
         self.target = target
         self.projectile_model = proj
         self.projectiles = []
@@ -40,4 +42,4 @@ class Spell(Entity):
 
 
 
-initial_spell = Spell(damage=[Effect.initialEffect])
+initial_spell = Spell(name="Spark", damage=[Effect.initialEffect])

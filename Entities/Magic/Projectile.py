@@ -1,5 +1,5 @@
 from ursina import *
-from Math import VectorMath
+from Utilities import VectorMath
 
 
 class Projectile(Entity):

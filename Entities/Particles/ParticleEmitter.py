@@ -1,6 +1,6 @@
 from ursina import *
 import numpy as np
-from Math import VectorMath
+from Utilities import VectorMath
 
 number_of_particles = 250  # keep this as low as possible
 
