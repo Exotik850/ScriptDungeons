@@ -3,22 +3,23 @@ from Entities.Creatures.Player import Player
 
 
 class Enemy(Entity):
-    def __init__(self, health=10, defense=0, damage=1, speed=.1, **kwargs):
+    def __init__(self, health=10, defense=0, damage=1, speed=.1, mana=None, **kwargs):
         super().__init__(**kwargs)
         self.model = "sphere"
         self.scale = Vec3(.5)
         self.collider = 'circle'
         self.color = color.red
-        self.health = health
-        self.defense = defense
+        self.mana_points = mana
         self.damage = damage
-        self.speed = speed
+        self.health_points = health
+        self.speed_points = speed
+        self.defense = defense
 
     def kill(self):
         destroy(self)
 
     def update(self):
-        if self.health <= 0:
+        if self.health_points <= 0:
             self.kill()
         # rand_vel = Vec2(random.uniform(-1,1), random.uniform(-1,1))
         # self.x += rand_vel.x * self.speed

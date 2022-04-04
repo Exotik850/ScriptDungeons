@@ -3,11 +3,14 @@ from Math import VectorMath
 
 
 class Projectile(Entity):
-    def __init__(self, size, rotation, speed, effect, target, **kwargs):
+    def __init__(self, size, rotation, speed, target, damage_effects=[], update_effects=[], ending_effects=[],
+                 **kwargs):
         super().__init__(z=0.1, scale=size, **kwargs)
         self.rotation = rotation
         self.speed = speed
-        self.effect = effect
+        self.damage_effects = damage_effects
+        self.update_effects = update_effects
+        self.ending_effects = ending_effects
         self.target = target
         self.caster = raycaster
         self.collider = "sphere"
@@ -25,7 +28,9 @@ class Projectile(Entity):
         # else:
 
     def on_collision(self, other):
-        if other.name == 'Enemy':
-            self.effect.target = other
-            self.effect.activate()
+        if other.name == 'Enemy' or other.name == 'Player':
+            for i in self.damage_effects:
+                i.target = other
+                i.activate()
             self.dead = True
+

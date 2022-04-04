@@ -1,31 +1,44 @@
 from ursina import *
 import numpy as np
+from Math import VectorMath
 
 number_of_particles = 250  # keep this as low as possible
 
 
-class ParticleEmitter(Entity):
-    def __init__(self, duration=1.5, **kwargs):
-        self.t = 0
-        self.duration = duration
-        self.points = np.array([Vec3(0) for i in range(number_of_particles)])
-        self.particles = [Vec3(random.random() - .5, random.random() - .5, random.random() - .5) * .05 for i in
-                          range(number_of_particles)]
-        self.directions = np.array(self.particles)
-        self.frames = []
+# ParticleEmitter is a class that creates a particle system
 
-        for i in range(60 * 6):
-            self.points += self.directions
-            self.frames.append(copy(self.points))
-        super().__init__(
-            model=Mesh(vertices=self.points, mode='point', static=False, render_points_in_3d=True, thickness=.01),
-            **kwargs)
-        for key, value in kwargs.items():
-            setattr(self, key, value)
+class ParticleEmitter(Entity):
+    def __init__(self, number=number_of_particles, pos=Vec3(0), duration=.5, color=color.white, **kwargs):
+        super().__init__(**kwargs)
+        self.color = color
+        self.particles = np.array([Vec3(0) for i in range(number)])  # list of all particles
+        self.particles_ = [Vec3(VectorMath.randomVec2d(), 0) * .05 for i in
+                           range(number_of_particles)] # list of all the directions of the particles
+        self.directions = np.array(self.particles_) # list of all the directions of the particles
+        self.frames = [] # list of all the frames of the particles
+        self.t = 0 # time since the particle system was created
+        for i in range(int(duration * 60)):
+            self.particles += self.directions
+            self.frames.append(copy(self.particles))
+
+        self.model = Mesh(vertices=self.particles, mode='point', static=False, render_points_in_3d=True, thickness=.01)
+
+        self.particle_type = 'circle'
+        self.particle_size = 0.1
+        self.particle_lifetime = duration
+        self.particle_speed = 0.1
+        self.particle_color = color
+        self.particle_count = number
+        self.particle_pos = pos
+
+        self.particle_scale = Vec3(0.1, 0.1, 0.1),
+        self.particle_scale_speed = Vec3(0, 0, 0),
+        self.particle_scale_acceleration = Vec3(0, 0, 0),
+        self.particle_texture = None
 
     def update(self):
         self.t += time.dt
-        if self.t >= self.duration:
+        if self.t >= self.particle_lifetime:
             destroy(self)
             return
 

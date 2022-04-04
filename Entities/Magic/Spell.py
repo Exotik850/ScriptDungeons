@@ -11,30 +11,33 @@ class Spell(Entity):
         self.ending_effects = ending
         self.target = target
         self.projectile_model = proj
-        self.projectile = None
+        self.projectiles = []
 
     def cast(self, position, rotation, caster):
-        self.projectile = Projectile.Projectile(size=1, speed=1, rotation=rotation, position=position,
-                                                model=self.projectile_model, target=self.target,
-                                                effect=Effect.initialEffect)
-        self.projectile.spell_caster = caster
+        self.projectiles.append(Projectile.Projectile(size=1, speed=1, rotation=rotation, position=position,
+                                                      model=self.projectile_model, target=self.target,
+                                                      effect=Effect.initialEffect)
+                                )
+        self.projectiles[-1].spell_caster = caster
         for effect in self.initial_effects:
             effect.activate(self)
 
         def proj_update():
             for i in self.update_effects:
                 i.activate(self)
-
-        self.projectile.update_effects = self.update_effects
+        self.projectiles[-1].update_effects = self.update_effects
+        self.projectiles[-1].damage_effects = self.damage_effects
         # self.projectile.update = proj_update
 
     def update(self):
-        if self.projectile:
-            self.projectile.update()
-            if self.projectile.dead:
-                for effect in self.ending_effects:
-                    effect.activate(self)
-                destroy(self.projectile)
+        for projectile in self.projectiles:
+            projectile.update()
+
+            if projectile.dead:
+                self.projectiles.remove(projectile)
+                for effect in projectile.ending_effects:
+                    effect.activate()
 
 
-initial_spell = Spell(damage=[Effect.initialEffect])
+
+initial_spell = Spell(ending=[Effect.initialEffect])

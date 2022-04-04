@@ -32,13 +32,13 @@ class Player(Entity):
         # rot = VectorMath.normalize(self.rotation)
         # spell.cast(position=(self.position + (rot * 3)), rotation=VectorMath.normalize(self.rotation), caster=self)
         ps = ParticleEmitter(parent=scene, position=self.world_position + VectorMath.normalize(self.rotation) * 2,
-                             rotation=self.rotation, scale=Vec3(.5))
+                             rotation=self.rotation, scale=Vec3(.5), color = color.red)
 
     def open_menu(self):
         pass
 
     def update(self):
-        hit_info = self.caster.raycast(self.world_position, self.rotation, ignore=(self,), distance=sqrt(2), debug=True)
+        hit_info = self.caster.raycast(self.world_position, self.rotation, ignore=(self,), distance=sqrt(2), debug=False)
         # if not hit_info.hit:
         self.x += held_keys['d'] * time.dt * self.speed_points
         self.y -= held_keys['s'] * time.dt * self.speed_points
