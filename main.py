@@ -4,6 +4,16 @@ from Entities.Creatures.Enemy import Enemy
 from World import Wall
 
 camera.orthographic = True
+entities = []
+walls = []
+player = None
+
+def update():
+    for entity in entities:
+        entity.update()
+    for wall in walls:
+        wall.update()
+
 
 
 def main():

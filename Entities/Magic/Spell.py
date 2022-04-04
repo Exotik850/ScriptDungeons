@@ -40,4 +40,4 @@ class Spell(Entity):
 
 
 
-initial_spell = Spell(ending=[Effect.initialEffect])
+initial_spell = Spell(damage=[Effect.initialEffect])
