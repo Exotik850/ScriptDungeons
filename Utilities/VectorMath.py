@@ -31,3 +31,12 @@ def randomVec2d() -> Vec2:
     temp.x = math.cos(ang) * r
     temp.y = math.sin(ang) * r
     return temp
+
+def randomVec3d() -> Vec3:
+    temp = Vec3(0,0,0)
+    ang = random.random() * TWO_PI
+    r = random.random()
+    temp.x = math.cos(ang) * r
+    temp.y = math.sin(ang) * r
+    temp.z = math.sin(ang) * r
+    return temp

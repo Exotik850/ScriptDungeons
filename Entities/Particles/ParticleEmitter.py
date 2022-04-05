@@ -13,10 +13,10 @@ class ParticleEmitter(Entity):
         self.color = color
         self.particles = np.array([Vec3(0) for i in range(number)])  # list of all particles
         self.particles_ = [Vec3(VectorMath.randomVec2d(), 0) * .05 for i in
-                           range(number_of_particles)] # list of all the directions of the particles
-        self.directions = np.array(self.particles_) # list of all the directions of the particles
-        self.frames = [] # list of all the frames of the particles
-        self.t = 0 # time since the particle system was created
+                           range(number)]  # list of all the directions of the particles
+        self.directions = np.array(self.particles_)  # list of all the directions of the particles
+        self.frames = []  # list of all the frames of the particles
+        self.t = 0  # time since the particle system was created
         for i in range(int(duration * 60)):
             self.particles += self.directions
             self.frames.append(copy(self.particles))

@@ -16,6 +16,9 @@ class Enemy(Entity):
         self.speed_points = speed
         self.defense = defense
         self.origin_position = self.position
+        self.health_ui = Text(text=f'HP: {self.health_points}', parent=self, color=color.white, size=1, scale=.5, position=Vec3(0, 0, -.5))
+
+
 
     def kill(self):
         destroy(self.children)
@@ -28,6 +31,7 @@ class Enemy(Entity):
         if hit_info.hit:
             if hit_info.entity.name == 'Player':
                 self.on_collision(hit_info.entity)
+        self.health_ui.text = f'HP: {self.health_points}'
         # rand_vel = Vec2(random.uniform(-1,1), random.uniform(-1,1))
         # self.x += rand_vel.x * self.speed
         # self.y += rand_vel.y * self.speed
