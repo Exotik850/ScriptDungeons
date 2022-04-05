@@ -19,13 +19,16 @@ class Projectile(Entity):
         self.spell_caster = None
 
     def update(self):
-        hit_info = self.caster.raycast(self.world_position, self.rotation, self.speed, ignore=(self.spell_caster,))
+        for effect in self.update_effects:
+            effect.target = self
+            effect.activate()
+
+        hit_info = self.intersects()
         if not hit_info.hit:
             self.position += VectorMath.normalize(self.rotation) * self.speed * time.dt
         else:
             self.on_collision(hit_info.entity)
 
-        # else:
 
     def on_collision(self, other):
         if other.name == 'Enemy' or other.name == 'Player':
