@@ -9,7 +9,6 @@ version = '.0.1b'
 
 camera.orthographic = True
 
-
 def main():
     app = Ursina()
     window.title = 'Script Dungeons Version ' + version
@@ -24,7 +23,6 @@ def main():
         i.shader = lit_with_shadows_shader
 
     app.run()
-
 
 if __name__ == '__main__':
     main()
