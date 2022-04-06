@@ -1,12 +1,14 @@
 from ursina import *
 from Entities.Creatures.Player import Player
-
+from Utilities import Logger
 
 class Enemy(Entity):
     def __init__(self, health=10, defense=0, damage=1, speed=.1, mana=None, **kwargs):
         super().__init__(**kwargs)
+        self.logger = Logger.Logger()
         self.name = 'Enemy'
         self.model = 'sphere'
+        self.target = None
         self.scale = Vec3(.5)
         self.collider = 'sphere'
         self.color = color.red
@@ -21,7 +23,7 @@ class Enemy(Entity):
 
 
     def kill(self):
-        destroy(self.children)
+        self.logger.log(f'{self.name} has died')
         destroy(self)
 
     def update(self):

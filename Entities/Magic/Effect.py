@@ -10,10 +10,9 @@ class Effect:
     modifier = 1
     visuals = []
 
-    def __init__(self, targ=None, targ_attribute=None, dur=0, modifier=1, color=color.white, number=0, name=None):
+    def __init__(self, targ=None, targ_attribute=None, modifier=1, color=color.white, number=0, name=None):
         self.target = targ
         self.target_attribute = targ_attribute
-        self.duration = dur
         self.modifier = modifier
         self.number = number
         self.name = name
@@ -28,13 +27,10 @@ class Effect:
         particle_emitter = ParticleEmitter(position=pos, color=color, duration=duration, number=number)
 
     def activate(self):
-        t = 0
         print(f"Activating {self.name}")
-        while t < self.duration:
-            val = math.floor(getattr(self.target, self.target_attribute) * self.modifier * time.dt)
-            setattr(self.target, self.target_attribute, val)
-            self.particles(self.target.world_position, color=self.color, duration=self.duration, number=self.number)
-            t += time.dt
+        val = round(getattr(self.target, self.target_attribute) * self.modifier, 2)
+        setattr(self.target, self.target_attribute, val)
+        self.particles(self.target.world_position, color=self.color, duration=self.duration, number=self.number)
 
 
-initialEffect = Effect(targ_attribute='health_points', dur=.5, modifier=.95, color=color.red, name='initialEffect')
+initialEffect = Effect(targ_attribute='scale', modifier=1.5, color=color.red, name='initialEffect')
