@@ -13,15 +13,14 @@ class Spell(Entity):
         self.damage_effects = damage
         self.ending_effects = ending
         self.mana_cost = cost
-        self.target = target
         self.range = range
         self.projectile_model = proj
         self.projectiles = []
         self.logger = Logger()
 
-    def cast(self, position, rotation, caster):
+    def cast(self, position, rotation, caster, target):
         self.projectiles.append(Projectile.Projectile(size=.25, speed=1, rotation=rotation, position=position,
-                                                      model=self.projectile_model, target=self.target,
+                                                      model=self.projectile_model, target=target,
                                                       duration=self.range,
                                                       effect=Effect.initialEffect)
                                 )
@@ -31,7 +30,7 @@ class Spell(Entity):
 
         self.projectiles[-1].update_effects = self.update_effects
         self.projectiles[-1].damage_effects = self.damage_effects
-        self.logger.log(str(caster) + " cast " + self.name + " on " + str(self.target))
+        self.logger.log(str(caster) + " cast " + self.name + " on " + str(target))
 
     def update(self):
         for projectile in self.projectiles:

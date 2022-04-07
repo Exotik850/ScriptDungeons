@@ -8,6 +8,7 @@ class Enemy(Entity):
         self.logger = Logger.Logger()
         self.name = 'Enemy'
         self.model = 'sphere'
+        self.texture = ''
         self.target = None
         self.scale = Vec3(.5)
         self.collider = 'sphere'

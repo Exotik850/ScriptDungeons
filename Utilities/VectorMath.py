@@ -13,6 +13,10 @@ def sub(v1: Vec3, v2: Vec3):
     return temp
 
 
+def magnitude(v: Vec3):
+    return (v.x ** 2 + v.y ** 2 + v.z ** 2) ** 0.5
+
+
 def div(v: Vec3, n: float):
     temp = v
     temp.x /= n
@@ -23,9 +27,9 @@ def div(v: Vec3, n: float):
 
 def normalize(v: Vec3):
     temp = v
-    temp.x /= temp.magnitude
-    temp.y /= temp.magnitude
-    temp.z /= temp.magnitude
+    temp.x /= magnitude(temp)
+    temp.y /= magnitude(temp)
+    temp.z /= magnitude(temp)
     return temp
 
 
@@ -47,16 +51,17 @@ def randomVec3d() -> Vec3:
     temp.z = math.sin(ang) * r
     return temp
 
+
 # find the distance between two entities
 def distance_squared(entity1, entity2):
     pos1 = entity1.position
     pos2 = entity2.position
-    d = (pos1.x-pos2.x)**2 + (pos1.y-pos2.y)**2 + (pos1.z-pos2.z)**2
+    d = (pos1.x - pos2.x) ** 2 + (pos1.y - pos2.y) ** 2 + (pos1.z - pos2.z) ** 2
     return d
 
-def distance(entity1, entity2):
-    return distance_squared(entity1, entity2)**0.5
 
+def distance(entity1, entity2):
+    return distance_squared(entity1, entity2) ** 0.5
 
 
 # find the closest entity to the given entity
@@ -71,7 +76,8 @@ def closest_entity(entity, entities):
             closest = ent
     return closest
 
-#find the closest entity to the given entity within a certain range
+
+# find the closest entity to the given entity within a certain range
 def closest_entity_within_range(entity, entities, range):
     closest = None
     for ent in entities:

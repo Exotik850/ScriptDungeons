@@ -21,10 +21,11 @@ class Player(Entity):
         self.speed_points = speed
         self.defense = defense
         self.on_menu = False
-        self.model = 'cube'
+        # self.model = player_model
+        self.model = 'sphere'
         self.texture = 'brick'
         self.scale = Vec3(sqrt(2)) * .5
-        self.collider = 'box'
+        self.collider = 'sphere'
         self.caster = raycaster
         self.cursor = PlayerCursor.PlayerCursor()
         self.spells = spells
@@ -35,17 +36,20 @@ class Player(Entity):
         self.light.z = -5
         self.health_ui = Text(parent=self, text=str(self.health_points), size=1, color=color.red, position=(0, 0, -1))
         self.spell_ui = Text(parent=self, text=str(self.spell_index), size=1, color=color.red, position=(1, -1, -1))
+        self.mana_ui = Text(parent=self, text=str(self.mana_points), size=1, color=color.blue, position=(0, -1, -1))
         self.bg = Entity(parent=camera.ui, model='quad', texture="white_cube", scale=Vec3(10, 10, 1), z=1,
                          visible=False)
 
     def lock_on(self, target):
         self.target = target
-        self.crosshair = Entity(parent=self.target, model='quad', texture='Assets/Textures/crosshair.png', scale=Vec3(.5), z=-1)
+        self.crosshair = Entity(parent=self.target, model='quad', texture='Assets/Textures/crosshair.png',
+                                scale=Vec3(.5), z=-1)
 
     def shoot_spell(self):
         spell = self.spells[self.spell_index]
         rot = VectorMath.normalize(self.rotation)
-        spell.cast(position=(self.world_position + rot), rotation=VectorMath.normalize(self.rotation), caster=self)
+        spell.cast(position=(self.world_position + rot), rotation=VectorMath.normalize(self.rotation), caster=self,
+                   target=self.target)
         self.mana_points -= spell.mana_cost
         # ps = ParticleEmitter.ParticleEmitter(parent=scene, position=(self.world_position + self.rotation * 5, .5),
         #                                      color=color.red,
@@ -58,6 +62,10 @@ class Player(Entity):
     def update(self):
         # hit_info = self.caster.raycast(self.world_position, self.rotation, ignore=(self,), distance=sqrt(2),
         # debug=False) if not hit_info.hit:
+        self.health_ui = str(self.health_points)
+        self.mana_ui = str(self.mana_points)
+        self.spell_ui = str(self.spell_index)
+
         hit_info = self.intersects()
         if not hit_info.hit:
             self.x += held_keys['d'] * time.dt * self.speed_points
@@ -74,7 +82,6 @@ class Player(Entity):
         else:
             camera.x = self.x
             camera.y = self.y
-
 
         for spell in self.spells:
             spell.update()
