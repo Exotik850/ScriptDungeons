@@ -2,6 +2,7 @@ from ursina import *
 from Entities.Creatures.Player import Player
 from Utilities import Logger
 
+
 class Enemy(Entity):
     def __init__(self, health=10, defense=0, damage=1, speed=.1, mana=None, **kwargs):
         super().__init__(**kwargs)
@@ -19,9 +20,8 @@ class Enemy(Entity):
         self.speed_points = speed
         self.defense = defense
         self.origin_position = self.position
-        self.health_ui = Text(text=f'HP: {self.health_points}', parent=self, color=color.white, size=1, scale=.5, position=Vec3(0, 0, -.5))
-
-
+        self.health_ui = Text(text=f'HP: {self.health_points}', parent=self, color=color.white, size=1, scale=.5,
+                              position=Vec3(0, 0, -.5))
 
     def kill(self):
         self.logger.log(f'{self.name} has died')

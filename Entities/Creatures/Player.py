@@ -23,7 +23,7 @@ class Player(Entity):
         self.on_menu = False
         # self.model = player_model
         self.model = 'sphere'
-        self.texture = 'brick'
+        # self.texture = 'brick'
         self.scale = Vec3(sqrt(2)) * .5
         self.collider = 'sphere'
         self.caster = raycaster
@@ -41,11 +41,18 @@ class Player(Entity):
                          visible=False)
 
     def lock_on(self, target):
+        """
+        Locks the player's crosshair on the target
+        :param target: The target to lock on to
+        """
         self.target = target
         self.crosshair = Entity(parent=self.target, model='quad', texture='Assets/Textures/crosshair.png',
                                 scale=Vec3(.5), z=-1)
 
     def shoot_spell(self):
+        """
+        Shoots the spell at the current index of the player's spell list
+        """
         spell = self.spells[self.spell_index]
         rot = VectorMath.normalize(self.rotation)
         spell.cast(position=(self.world_position + rot), rotation=VectorMath.normalize(self.rotation), caster=self,
